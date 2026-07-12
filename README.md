@@ -1,4 +1,4 @@
-# FloodWatch AI Geo — ASEAN Regional Edition
+# AquaGuard AI Geo — ASEAN Regional Edition
 
 Competition-oriented, safety-conscious code extension for a regional flood-risk and inundation intelligence platform covering all 11 ASEAN Member States.
 
