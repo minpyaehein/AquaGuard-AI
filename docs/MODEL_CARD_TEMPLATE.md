@@ -1,0 +1,16 @@
+# Model card
+- Model/version:
+- Owner:
+- Task: risk prediction or observed inundation segmentation
+- Intended use:
+- Out-of-scope use:
+- Training countries/events/dates:
+- Data sources/licenses:
+- Label methodology:
+- Metrics overall and per country:
+- Country-held-out results:
+- Calibration/Brier score:
+- False positives/false negatives:
+- Cloud, terrain, urban and vegetation limitations:
+- Alerting safeguard: authorized human review required
+- Rollback model/version:

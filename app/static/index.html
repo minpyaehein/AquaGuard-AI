@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>FloodWatch ASEAN Command Center</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Manrope:wght@700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    />
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <div class="app">
+      <aside>
+        <div class="logo">
+          <b>FW</b><span>FloodWatch<small>ASEAN AI GEO</small></span>
+        </div>
+        <nav>
+          <button class="active">◈<span>Command center</span></button
+          ><button>⌁<span>Live intelligence</span></button
+          ><button>⚠<span>Alert operations</span></button
+          ><button>◎<span>Model registry</span></button
+          ><button>◫<span>Evidence vault</span></button>
+        </nav>
+        <div class="side-status">
+          <i></i>
+          <div>
+            <b>Regional monitoring</b><small>11 member states configured</small>
+          </div>
+        </div>
+        <div class="operator">
+          <strong>MM</strong>
+          <div><b>Myint Myat Thu</b><small>GeoAI operator</small></div>
+        </div>
+      </aside>
+      <main>
+        <header>
+          <div>
+            <p>ASEAN DISASTER INTELLIGENCE NETWORK</p>
+            <h1>Regional Flood Command Center</h1>
+          </div>
+          <div class="header-actions">
+            <span id="clock"></span
+            ><button id="refresh">Refresh intelligence</button>
+          </div>
+        </header>
+        <div class="demo">
+          <b>RESEARCH DEMONSTRATION</b
+          ><span
+            >Regional values are synthetic until official and validated data
+            adapters are connected. Public alerts require authorized agency
+            review.</span
+          >
+        </div>
+        <section class="hero-grid">
+          <article class="hero">
+            <div>
+              <p>REGIONAL SITUATION</p>
+              <h2>
+                One operational picture.<br /><em>Eleven ASEAN nations.</em>
+              </h2>
+              <span
+                >Time-aware risk, satellite evidence, impact intelligence and
+                last-mile communications in one auditable workflow.</span
+              >
+            </div>
+            <div class="orb">
+              <strong id="regionRisk">--</strong
+              ><small>Regional watch index</small>
+            </div>
+          </article>
+          <div class="kpis">
+            <article>
+              <span>Countries monitored</span><b id="countryCount">--</b
+              ><small>ASEAN-wide configuration</small>
+            </article>
+            <article>
+              <span>High / critical</span><b id="highCount">--</b
+              ><small>Require closer review</small>
+            </article>
+            <article>
+              <span>Evidence sources</span><b id="sourceCount">--</b
+              ><small>Weather, gauges, EO</small>
+            </article>
+            <article>
+              <span>Pending reviews</span><b id="reviewCount">--</b
+              ><small>Human authorization queue</small>
+            </article>
+          </div>
+        </section>
+        <section class="command-grid">
+          <article class="map-card">
+            <div class="title">
+              <div>
+                <p>REGIONAL GEOINTELLIGENCE</p>
+                <h3>ASEAN operational map</h3>
+              </div>
+              <div class="toggle">
+                <button class="active">Risk</button><button>Connectivity</button
+                ><button>Exposure</button>
+              </div>
+            </div>
+            <div id="map"></div>
+            <div class="legend">
+              <span><i class="low"></i>Low</span
+              ><span><i class="moderate"></i>Moderate</span
+              ><span><i class="high"></i>High</span
+              ><span><i class="critical"></i>Critical</span>
+            </div>
+          </article>
+          <aside class="detail">
+            <div class="detail-head">
+              <div>
+                <p>COUNTRY INTELLIGENCE</p>
+                <h3 id="countryName">Select a country</h3>
+              </div>
+              <span id="countryCode">--</span>
+            </div>
+            <div class="risk-row">
+              <div><span>Flood probability</span><b id="prob">--</b></div>
+              <div><span>Confidence</span><b id="conf">--</b></div>
+            </div>
+            <div class="chart">
+              <div class="chart-title">
+                <span>12-step risk evolution</span
+                ><small>demonstration replay</small>
+              </div>
+              <svg
+                id="spark"
+                viewBox="0 0 360 100"
+                preserveAspectRatio="none"
+              ></svg>
+            </div>
+            <div id="sources" class="sources"></div>
+            <div class="impact">
+              <div><span>Population</span><b id="population">--</b></div>
+              <div><span>Roads</span><b id="roads">--</b></div>
+              <div><span>Health sites</span><b id="health">--</b></div>
+              <div><span>Network</span><b id="network">--</b></div>
+            </div>
+            <button id="reviewAlert" class="review">
+              Review CAP test alert
+            </button>
+          </aside>
+        </section>
+        <section class="case-study">
+          <div class="case-banner">
+            <div>
+              <p>FLAGSHIP MYANMAR PILOT</p>
+              <h2>Thaton Flood Intelligence Lab</h2>
+              <span
+                >A competition-ready historical replay demonstrating rapid risk
+                updates, satellite-observed inundation, impact analysis and
+                telecom-aware alerting.</span
+              >
+            </div>
+            <div class="case-badge">THATON • MON STATE</div>
+          </div>
+          <div class="case-kpis">
+            <article>
+              <span>Flood probability</span><b id="caseProb">--</b
+              ><small>Model-estimated risk</small>
+            </article>
+            <article>
+              <span>Confidence</span><b id="caseConf">--</b
+              ><small>Evidence agreement</small>
+            </article>
+            <article>
+              <span>Impact priority</span><b id="casePriority">--</b
+              ><small>Demo exposure score</small>
+            </article>
+            <article>
+              <span>Replay updated</span
+              ><b id="caseTime" class="case-time">--</b
+              ><small>Synthetic historical replay</small>
+            </article>
+          </div>
+          <div class="case-grid">
+            <article class="case-map">
+              <div class="case-title">
+                <div>
+                  <p>THATON OPERATIONAL PICTURE</p>
+                  <h3>Risk and inundation evidence</h3>
+                </div>
+                <div class="toggle">
+                  <button class="active" data-case-layer="risk">Risk</button
+                  ><button data-case-layer="inundation">Inundation</button>
+                </div>
+              </div>
+              <div id="thatonMap"></div>
+              <div class="case-note">
+                <b>Important:</b> Risk polygons are predictions; blue inundation
+                polygons represent model-observed water evidence. Both are
+                synthetic in this competition replay.
+              </div>
+            </article>
+            <div class="case-side">
+              <article>
+                <p>LIVE EVIDENCE</p>
+                <h3>Source freshness</h3>
+                <div id="caseSources"></div>
+              </article>
+              <article>
+                <p>IMPACT & CONNECTIVITY</p>
+                <h3>Response picture</h3>
+                <div id="caseImpact" class="case-impact"></div>
+              </article>
+            </div>
+          </div>
+          <div class="case-bottom">
+            <article>
+              <p>AI EXPLAINABILITY</p>
+              <h3>Why risk increased</h3>
+              <div id="drivers" class="drivers"></div>
+            </article>
+            <article>
+              <p>10-MINUTE REPLAY</p>
+              <h3>Risk evolution</h3>
+              <svg
+                id="caseChart"
+                viewBox="0 0 500 130"
+                preserveAspectRatio="none"
+              ></svg>
+            </article>
+            <article class="why">
+              <p>WHY THATON</p>
+              <h3>Local proof, regional design</h3>
+              <ul>
+                <li>Thaton has documented river- and urban-flood hazard.</li>
+                <li>
+                  Historical flood mapping exists for Thaton and neighbouring
+                  areas.
+                </li>
+                <li>
+                  The pilot links GeoAI evidence to telecommunications-aware
+                  response.
+                </li>
+                <li>
+                  The same modular architecture is configured for all 11 ASEAN
+                  Member States.
+                </li>
+              </ul>
+            </article>
+          </div>
+        </section>
+        <section class="countries-section">
+          <div class="section-head">
+            <div>
+              <p>REGIONAL COVERAGE</p>
+              <h3>Country readiness matrix</h3>
+            </div>
+            <span>Click any card to inspect its evidence</span>
+          </div>
+          <div id="countries" class="countries"></div>
+        </section>
+        <section class="lower">
+          <article>
+            <div class="section-head">
+              <div>
+                <p>TRUSTED AI</p>
+                <h3>Model governance</h3>
+              </div>
+              <span class="healthy">Candidate registry online</span>
+            </div>
+            <div class="governance">
+              <div><b>01</b><span>Event-held-out training</span></div>
+              <div><b>02</b><span>Country-held-out testing</span></div>
+              <div><b>03</b><span>Uncertainty displayed</span></div>
+              <div><b>04</b><span>Human alert approval</span></div>
+              <div><b>05</b><span>Versioned model artifacts</span></div>
+            </div>
+          </article>
+          <article>
+            <div class="section-head">
+              <div>
+                <p>MISSION PIPELINE</p>
+                <h3>Detection to action</h3>
+              </div>
+            </div>
+            <div class="pipeline">
+              <span class="done">Acquire</span><i></i
+              ><span class="done">Predict</span><i></i
+              ><span class="done">Fuse</span><i></i
+              ><span class="done">Assess</span><i></i><span>Authorize</span
+              ><i></i><span>Communicate</span>
+            </div>
+          </article>
+        </section>
+        <footer>
+          <span>FloodWatch AI Geo • ASEAN Regional Edition</span
+          ><span>Risk ≠ confirmed inundation • CAP status: TEST</span>
+        </footer>
+      </main>
+    </div>
+    <div id="modal" class="modal hidden">
+      <div class="modal-card">
+        <button id="close">×</button>
+        <p>AUTHORIZED TEST WORKFLOW</p>
+        <h2 id="modalTitle">Review CAP test alert</h2>
+        <label
+          >Reviewer<input id="reviewer" value="Demo Disaster Officer" /></label
+        ><label
+          >Reason<textarea id="reason">
+Reviewed for competition demonstration only.</textarea
+          ></label
+        ><label
+          >Reviewer token<input
+            id="token"
+            type="password"
+            placeholder="Token from .env"
+        /></label>
+        <div class="modal-actions">
+          <button id="reject" class="reject">Reject</button
+          ><button id="approve">Approve TEST alert</button>
+        </div>
+        <pre id="result"></pre>
+      </div>
+    </div>
+    <div id="toast"></div>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="/static/app.js"></script>
+    <script src="/static/thaton.js"></script>
+  </body>
+</html>
