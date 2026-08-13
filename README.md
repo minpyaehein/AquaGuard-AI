@@ -1,66 +1,110 @@
-# AquaGuard AI Geo — ASEAN Regional Edition
+# AquaGuardAI.zip — Packaged Snapshot
 
-Competition-oriented, safety-conscious code extension for a regional flood-risk and inundation intelligence platform covering all 11 ASEAN Member States.
+AquaGuardAI.zip is a packaged snapshot of the AquaGuard-AI project. It bundles the project files into a single archive so you can download, verify, extract, and run the project offline or move it between systems.
 
-## What this adds
-- 11-country configuration and regional deployment profiles
-- Pluggable AI model interface: swap your own risk or segmentation model without changing the API
-- Tabular risk-model training, U-Net segmentation training, calibration, evaluation, and model-card generation
-- Country-held-out evaluation to test geographic generalization
-- Model registry with version, checksum, metrics, and activation state
-- Explicit separation of risk prediction, observed inundation, confidence, and authorized alerts
-- Multilingual alert-template placeholders
+Note: This README describes how to inspect and use the ZIP archive. For full project documentation and development instructions, refer to the repository README and the files inside the archive after extraction.
 
-## Install
-```powershell
-python -m venv .venv
-.venv\Scripts\activate
-pip install -r requirements-core.txt
-pip install -r requirements-ml.txt
-copy .env.example .env
-```
+## What this archive contains
+The archive is intended to contain a snapshot of the AquaGuard-AI project, which typically includes:
+- Project source code (API, UI, and ML pipelines)
+- Model artifacts or lightweight model placeholders (weights may be omitted)
+- Configuration and environment templates (e.g., .env.example)
+- Documentation and data-contract files (docs/)
+- Sample or synthetic data for demos
 
-## Prepare tabular risk data
-Create `data/processed/risk_features.csv` with the schema in `docs/DATA_CONTRACT.md`.
+Exact contents may vary — list the archive to confirm what's included.
 
-## Train risk model
-```powershell
-python -m training.train_risk --csv data/processed/risk_features.csv --out models/registry/risk_v1
-```
+## Verify the archive
+Before extracting, verify the file integrity (replace filename if needed):
 
-## Prepare segmentation data
-Create `.npz` chips under `data/processed/segmentation/{train,val,test}`. Each file must contain:
-- `image`: float32 `[C,H,W]`
-- `mask`: uint8 `[H,W]`, classes 0=background, 1=flood, 255=ignore
-- optional `country_code`, `event_id`, `timestamp`
+- Compute SHA-256 checksum:
+  ```bash
+  sha256sum AquaGuardAI.zip
+  ```
+- Or on macOS:
+  ```bash
+  shasum -a 256 AquaGuardAI.zip
+  ```
 
-## Train segmentation model
-```powershell
-python -m training.train_segmentation --data data/processed/segmentation --out models/registry/seg_unet_v1 --channels 2
-```
+Compare the checksum to a trusted value if provided.
 
-## Evaluate geographic generalization
-```powershell
-python -m training.evaluate_cross_country --csv data/processed/risk_features.csv --out reports/cross_country.json
-```
+## Inspect contents without extracting
+- List files inside the ZIP:
+  ```bash
+  unzip -l AquaGuardAI.zip
+  ```
+- On Windows (PowerShell):
+  ```powershell
+  Expand-Archive -Path .\AquaGuardAI.zip -DestinationPath .\temp -Force -WhatIf
+  ```
+  (Remove -WhatIf to actually extract; or use a GUI archive viewer to inspect.)
 
-## Add your own model
-1. Copy `app/ai/plugins/custom_template.py`.
-2. Implement `load()` and `predict()`.
-3. Set `RISK_MODEL_PLUGIN=app.ai.plugins.your_module:YourModel` in `.env`.
-4. Put weights under `models/custom/`; weights are intentionally not included.
+## Extract the archive
+- Linux / macOS:
+  ```bash
+  unzip AquaGuardAI.zip -d AquaGuardAI
+  ```
+- Windows (PowerShell):
+  ```powershell
+  Expand-Archive -Path .\AquaGuardAI.zip -DestinationPath .\AquaGuardAI
+  ```
 
-## Truthful competition claim
-This code is a strong engineering foundation, not a guarantee of winning and not an operational public-warning authority. Demonstrate validated data, country-held-out results, uncertainty, auditability, local-language communication, and human authorization.
+## Quick usage after extraction
+1. Change into the extracted directory:
+   ```bash
+   cd AquaGuardAI
+   ```
+2. Create and activate a virtual environment:
+   ```bash
+   python -m venv .venv
+   source .venv/bin/activate        # macOS / Linux
+   .\.venv\Scripts\Activate.ps1     # Windows PowerShell
+   ```
+3. Install dependencies:
+   ```bash
+   pip install -r requirements-core.txt
+   pip install -r requirements-ml.txt
+   ```
+4. Copy and edit environment variables:
+   ```bash
+   cp .env.example .env
+   ```
+5. Start the development server (example):
+   ```bash
+   uvicorn app.main:app --reload
+   ```
+   Open http://127.0.0.1:8000 to view the demo dashboard. The demo may use synthetic data until you connect real adapters and validated models.
 
-## Run the competition command center
-```powershell
-uvicorn app.main:app --reload
-```
-Open `http://127.0.0.1:8000`. The regional values shown by the included server are synthetic demonstration data until you wire real adapters and validated models.
+6. Training & evaluation commands (examples — use files in the extracted project):
+   - Train risk model:
+     ```bash
+     python -m training.train_risk --csv data/processed/risk_features.csv --out models/registry/risk_v1
+     ```
+   - Train segmentation model:
+     ```bash
+     python -m training.train_segmentation --data data/processed/segmentation --out models/registry/seg_unet_v1 --channels 2
+     ```
+   - Cross-country evaluation:
+     ```bash
+     python -m training.evaluate_cross_country --csv data/processed/risk_features.csv --out reports/cross_country.json
+     ```
 
-## Flagship Thaton pilot
-The home dashboard now includes a dedicated Thaton Flood Intelligence Lab. It is a synthetic historical replay until you connect one licensed event dataset. See `docs/evidence/THATON_CASE_RATIONALE.md`, `docs/THATON_DEMO_SCRIPT.md`, and `docs/COMPETITION_READINESS_CHECKLIST.md`.
+## Security & files of concern
+- Large binary model weights or sensitive data may be present. Do not commit or publish private keys, credentials, or licensed datasets.
+- Inspect configuration files (`.env`, config/*.yaml) and remove or rotate secrets before use.
 
-## V4: real-evidence gate
-This edition adds a Thaton historical-event manifest, evidence ledger/checksums, and segmentation evaluation. See `docs/REAL_EVENT_UPGRADE.md`. The API will not imply validation when reports are absent.
+## Licensing & attribution
+- Observe the repository LICENSE file for usage and redistribution terms.
+- If you publish derived artifacts or models, include proper attribution and follow any dataset or license restrictions.
+
+## Disclaimer
+This archive is provided as an engineering/demo snapshot. It is not an operational early-warning system. Before using any models or issuing alerts in production:
+- Validate models with independent, held-out data
+- Provide uncertainty estimates and an audit trail
+- Ensure compliance with local regulations and data licensing
+
+## Need help?
+If you want me to:
+- list the archive contents now,
+- extract and show a particular file (for example, README.md or a notebook),
+- or commit this README into the repository — tell me which and I’ll proceed.
